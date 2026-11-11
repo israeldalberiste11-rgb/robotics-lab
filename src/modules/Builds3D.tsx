@@ -61,7 +61,7 @@ export function Builds3D() {
       <Canvas
         shadows
         camera={{ position: [1.6, 1.2, 1.8], fov: 45 }}
-        style={{ background: 'linear-gradient(#fdfaf7, #f6ecef)' }}
+        style={{ background: '#ffffff' }}
       >
         <Suspense fallback={null}>
           <Scene design={design} speed={speed} playing={playing} theme={theme} />
@@ -69,8 +69,8 @@ export function Builds3D() {
       </Canvas>
 
       {/* Design selector + colour tool */}
-      <div className="absolute left-3 top-3 z-10 w-56 rounded-lg border border-burg-200 bg-white/90 p-3 shadow-sm backdrop-blur">
-        <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-burg-500">
+      <div className="absolute left-3 top-3 z-10 w-56 rounded-lg border border-neutral-200 bg-white/90 p-3 shadow-sm backdrop-blur">
+        <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-neutral-500">
           Open-source builds
         </div>
         <div className="flex flex-col gap-1.5">
@@ -80,8 +80,8 @@ export function Builds3D() {
               onClick={() => setDesign(d)}
               className={`rounded px-2.5 py-1.5 text-left text-xs font-medium transition ${
                 design.id === d.id
-                  ? 'bg-burg-700 text-cream'
-                  : 'bg-burg-50 text-burg-800 hover:bg-burg-100'
+                  ? 'bg-neutral-900 text-white'
+                  : 'bg-neutral-100 text-neutral-800 hover:bg-neutral-200'
               }`}
             >
               {d.name}
@@ -89,7 +89,7 @@ export function Builds3D() {
           ))}
         </div>
         <div className="mt-3 border-t border-burg-100 pt-2">
-          <div className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-burg-500">
+          <div className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-500">
             Colour theme
           </div>
           <div className="flex flex-col gap-1.5">
@@ -99,8 +99,8 @@ export function Builds3D() {
                 onClick={() => setTheme(t)}
                 className={`flex items-center gap-2 rounded px-2 py-1 text-xs transition ${
                   theme.id === t.id
-                    ? 'bg-burg-700 text-cream'
-                    : 'bg-burg-50 text-burg-800 hover:bg-burg-100'
+                    ? 'bg-neutral-900 text-white'
+                    : 'bg-neutral-100 text-neutral-800 hover:bg-neutral-200'
                 }`}
               >
                 <span className="flex">
@@ -122,9 +122,9 @@ export function Builds3D() {
 
       {/* Movement explainer (pick-and-place phases) — only for the arm demo */}
       {design.id === 'inmoov' && (
-        <div className="absolute left-1/2 top-3 z-10 w-96 -translate-x-1/2 rounded-lg border border-burg-200 bg-white/90 p-3 text-xs shadow-sm backdrop-blur">
+        <div className="absolute left-1/2 top-3 z-10 w-96 -translate-x-1/2 rounded-lg border border-neutral-200 bg-white/90 p-3 text-xs shadow-sm backdrop-blur">
           <div className="flex items-center justify-between">
-            <div className="font-display text-sm font-semibold text-burg-900">
+            <div className="text-sm font-semibold text-neutral-900">
               Pick &amp; place — how the arm moves
             </div>
             <div className="flex gap-1">
@@ -134,8 +134,8 @@ export function Builds3D() {
                   onClick={() => setPhase(p)}
                   className={`rounded px-1.5 py-0.5 text-[10px] transition ${
                     phase.id === p.id
-                      ? 'bg-burg-700 text-cream'
-                      : 'bg-burg-50 text-burg-700 hover:bg-burg-100'
+                      ? 'bg-neutral-900 text-white'
+                      : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                   }`}
                 >
                   {p.label.split('·')[0].trim()}
@@ -143,24 +143,24 @@ export function Builds3D() {
               ))}
             </div>
           </div>
-          <p className="mt-1.5 leading-relaxed text-burg-700">{phase.explain}</p>
+          <p className="mt-1.5 leading-relaxed text-neutral-700">{phase.explain}</p>
         </div>
       )}
 
       {/* Attribution / spec panel */}
-      <div className="absolute right-3 top-3 z-10 w-72 rounded-lg border border-burg-200 bg-white/90 p-3 text-xs shadow-sm backdrop-blur">
-        <div className="font-display text-sm font-semibold text-burg-900">{design.name}</div>
-        <div className="mt-0.5 text-burg-500">{design.project}</div>
-        <p className="mt-2 leading-relaxed text-burg-700">{design.blurb}</p>
+      <div className="absolute right-3 top-3 z-10 w-72 rounded-lg border border-neutral-200 bg-white/90 p-3 text-xs shadow-sm backdrop-blur">
+        <div className="text-sm font-semibold text-neutral-900">{design.name}</div>
+        <div className="mt-0.5 text-neutral-500">{design.project}</div>
+        <p className="mt-2 leading-relaxed text-neutral-700">{design.blurb}</p>
         <div className="mt-3 space-y-1">
           {design.specs.map((s) => (
             <div key={s.label} className="flex justify-between">
-              <span className="text-burg-400">{s.label}</span>
-              <span className="text-burg-800">{s.value}</span>
+              <span className="text-neutral-500">{s.label}</span>
+              <span className="text-neutral-800">{s.value}</span>
             </div>
           ))}
         </div>
-        <div className="mt-3 border-t border-burg-100 pt-2 text-burg-500">
+        <div className="mt-3 border-t border-burg-100 pt-2 text-neutral-500">
           <div>
             Source:{' '}
             <a href={design.source} target="_blank" rel="noreferrer" className="text-burg-600 underline">
@@ -174,20 +174,20 @@ export function Builds3D() {
             </a>
           </div>
         </div>
-        <div className="mt-2 text-[10px] leading-snug text-burg-300">
+        <div className="mt-2 text-[10px] leading-snug text-neutral-400">
           Model is a procedural approximation for learning, not the project's exact CAD.
         </div>
       </div>
 
       {/* Playback controls */}
-      <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center gap-3 rounded-lg border border-burg-200 bg-white/90 px-4 py-2 shadow-sm backdrop-blur">
+      <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center gap-3 rounded-lg border border-neutral-200 bg-white/90 px-4 py-2 shadow-sm backdrop-blur">
         <button
           onClick={() => setPlaying((p) => !p)}
-          className="rounded bg-burg-700 px-3 py-1.5 text-xs font-medium text-cream hover:bg-burg-600"
+          className="rounded bg-neutral-900 px-3 py-1.5 text-xs font-medium text-white hover:bg-burg-600"
         >
           {playing ? '⏸ Pause' : '▶ Play'}
         </button>
-        <label className="flex items-center gap-2 text-xs text-burg-700">
+        <label className="flex items-center gap-2 text-xs text-neutral-700">
           Speed
           <input
             type="range"
@@ -198,9 +198,9 @@ export function Builds3D() {
             onChange={(e) => setSpeed(parseFloat(e.target.value))}
             className="w-24 accent-burg-600"
           />
-          <span className="font-mono text-burg-800">{speed.toFixed(1)}×</span>
+          <span className="font-mono text-neutral-800">{speed.toFixed(1)}×</span>
         </label>
-        <span className="text-[10px] text-burg-300">drag to orbit · scroll to zoom</span>
+        <span className="text-[10px] text-neutral-400">drag to orbit · scroll to zoom</span>
       </div>
     </div>
   )

@@ -50,15 +50,15 @@ export function DifferentialDrive() {
       : { x: pose.x - R * Math.sin(pose.theta), y: pose.y + R * Math.cos(pose.theta) }
 
   return (
-    <div className="relative h-full w-full overflow-hidden bg-slate-950">
+    <div className="relative h-full w-full overflow-hidden bg-white">
       <svg className="h-full w-full" viewBox={`0 0 ${ARENA_W} ${ARENA_H}`}>
-        <rect x={0} y={0} width={ARENA_W} height={ARENA_H} fill="#0b1120" stroke="#1e293b" />
+        <rect x={0} y={0} width={ARENA_W} height={ARENA_H} fill="#ffffff" stroke="#e5e5e5" />
         {/* trail */}
         {trailRef.current.length > 1 && (
           <polyline
             points={trailRef.current.map((p) => `${p.x},${p.y}`).join(' ')}
             fill="none"
-            stroke="#38bdf8"
+            stroke="#3b82f6"
             strokeWidth={2}
             opacity={0.5}
           />
@@ -73,7 +73,7 @@ export function DifferentialDrive() {
         )}
         {/* robot body */}
         <g transform={`translate(${pose.x} ${pose.y}) rotate(${(-pose.theta * 180) / Math.PI})`}>
-          <rect x={-22} y={-14} width={44} height={28} rx={4} fill="#1e293b" stroke="#38bdf8" strokeWidth={2} />
+          <rect x={-22} y={-14} width={44} height={28} rx={4} fill="#f5f5f5" stroke="#3b82f6" strokeWidth={2} />
           {/* wheels */}
           <rect x={-24} y={-18} width={48} height={5} fill="#0f172a" />
           <rect x={-24} y={13} width={48} height={5} fill="#0f172a" />
@@ -84,22 +84,22 @@ export function DifferentialDrive() {
       </svg>
 
       <MathPanel title="Differential Drive">
-        <div className="text-slate-400">v_L = {vLeft.toFixed(0)} px/s</div>
-        <div className="text-slate-400">v_R = {vRight.toFixed(0)} px/s</div>
-        <div className="mt-2 border-t border-slate-700 pt-2">v = (v_L+v_R)/2</div>
-        <div className="text-sky-300">v = {v.toFixed(1)}</div>
+        <div className="text-neutral-500">v_L = {vLeft.toFixed(0)} px/s</div>
+        <div className="text-neutral-500">v_R = {vRight.toFixed(0)} px/s</div>
+        <div className="mt-2 border-t border-neutral-200 pt-2">v = (v_L+v_R)/2</div>
+        <div className="text-neutral-800">v = {v.toFixed(1)}</div>
         <div>ω = (v_R−v_L)/L</div>
-        <div className="text-sky-300">ω = {omega.toFixed(2)} rad/s</div>
-        <div className="mt-2 text-slate-400">R = v/ω</div>
-        <div className="text-sky-300">{R === null ? '∞ (straight)' : `${R.toFixed(0)} px`}</div>
+        <div className="text-neutral-800">ω = {omega.toFixed(2)} rad/s</div>
+        <div className="mt-2 text-neutral-500">R = v/ω</div>
+        <div className="text-neutral-800">{R === null ? '∞ (straight)' : `${R.toFixed(0)} px`}</div>
       </MathPanel>
 
-      <div className="absolute bottom-4 left-1/2 w-80 -translate-x-1/2 rounded-lg border border-slate-700 bg-slate-900/85 p-3 backdrop-blur">
+      <div className="absolute bottom-4 left-1/2 w-80 -translate-x-1/2 rounded-lg border border-neutral-200 bg-white p-3 backdrop-blur">
         <div className="mb-2 flex items-center justify-between">
-          <span className="text-xs font-semibold uppercase tracking-wider text-sky-300">Wheel speeds</span>
+          <span className="text-xs font-semibold uppercase tracking-wider text-neutral-800">Wheel speeds</span>
           <button
             onClick={() => setRunning((r) => !r)}
-            className="rounded bg-sky-600 px-3 py-1 text-xs font-medium text-white hover:bg-sky-500"
+            className="rounded bg-neutral-900 px-3 py-1 text-xs font-medium text-white hover:bg-neutral-800"
           >
             {running ? 'Pause' : 'Play'}
           </button>

@@ -21,7 +21,7 @@ export function InverseKinematics() {
   const targetR = Math.hypot(target.x, target.y)
 
   return (
-    <div className="relative h-full w-full overflow-hidden bg-slate-950">
+    <div className="relative h-full w-full overflow-hidden bg-white">
       <svg
         className="h-full w-full"
         viewBox="0 0 520 380"
@@ -34,10 +34,10 @@ export function InverseKinematics() {
       >
         {/* reachable annulus */}
         <circle cx={CX} cy={CY} r={maxR} fill="#064e3b" opacity={0.25} />
-        <circle cx={CX} cy={CY} r={minR} fill="#0b1120" />
+        <circle cx={CX} cy={CY} r={minR} fill="#ffffff" />
         {/* grid */}
         {Array.from({ length: 9 }, (_, i) => (
-          <line key={i} x1={i * 60} y1={0} x2={i * 60} y2={380} stroke="#1e293b" strokeWidth={1} />
+          <line key={i} x1={i * 60} y1={0} x2={i * 60} y2={380} stroke="#e5e5e5" strokeWidth={1} />
         ))}
         {/* links */}
         {svgPts.slice(0, -1).map((p, i) => (
@@ -47,7 +47,7 @@ export function InverseKinematics() {
             y1={p.y}
             x2={svgPts[i + 1].x}
             y2={svgPts[i + 1].y}
-            stroke="#38bdf8"
+            stroke="#3b82f6"
             strokeWidth={10}
             strokeLinecap="round"
           />
@@ -60,7 +60,7 @@ export function InverseKinematics() {
             cy={p.y}
             r={i === 0 ? 8 : 6}
             fill={i === 0 ? '#f43f5e' : i === svgPts.length - 1 ? '#22c55e' : '#fbbf24'}
-            stroke="#0b1120"
+            stroke="#ffffff"
             strokeWidth={2}
           />
         ))}
@@ -70,24 +70,24 @@ export function InverseKinematics() {
           <line x1={CX + target.x - 10} y1={CY - target.y} x2={CX + target.x + 10} y2={CY - target.y} stroke={reachable ? '#22c55e' : '#ef4444'} strokeWidth={1.5} />
           <line x1={CX + target.x} y1={CY - target.y - 10} x2={CX + target.x} y2={CY - target.y + 10} stroke={reachable ? '#22c55e' : '#ef4444'} strokeWidth={1.5} />
         </g>
-        <text x={12} y={20} fill="#64748b" fontSize={11} fontFamily="monospace">
+        <text x={12} y={20} fill="#a3a3a3" fontSize={11} fontFamily="monospace">
           Click anywhere to set the target · green ring = reachable
         </text>
       </svg>
 
       <MathPanel title="Inverse Kinematics">
-        <div className="text-slate-400">target = ({target.x.toFixed(0)}, {target.y.toFixed(0)})</div>
+        <div className="text-neutral-500">target = ({target.x.toFixed(0)}, {target.y.toFixed(0)})</div>
         <div>r = {targetR.toFixed(1)} px</div>
-        <div className="text-slate-400">reach: {minR}…{maxR}</div>
+        <div className="text-neutral-500">reach: {minR}…{maxR}</div>
         {reachable ? (
           <>
-            <div className="mt-2 border-t border-slate-700 pt-2">θ₁ = {toDeg(sol![0]).toFixed(1)}°</div>
+            <div className="mt-2 border-t border-neutral-200 pt-2">θ₁ = {toDeg(sol![0]).toFixed(1)}°</div>
             <div>θ₂ = {toDeg(sol![1]).toFixed(1)}°</div>
-            <div className="mt-2 text-slate-400">cos θ₂ = (r²−L₁²−L₂²)/2L₁L₂</div>
-            <div className="text-emerald-300">end = ({end.x.toFixed(1)}, {end.y.toFixed(1)})</div>
+            <div className="mt-2 text-neutral-500">cos θ₂ = (r²−L₁²−L₂²)/2L₁L₂</div>
+            <div className="text-green-600">end = ({end.x.toFixed(1)}, {end.y.toFixed(1)})</div>
           </>
         ) : (
-          <div className="mt-2 text-rose-400">⚠️ Target out of reach</div>
+          <div className="mt-2 text-red-500">⚠️ Target out of reach</div>
         )}
       </MathPanel>
     </div>

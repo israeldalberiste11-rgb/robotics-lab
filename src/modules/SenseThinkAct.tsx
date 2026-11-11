@@ -44,12 +44,12 @@ export function SenseThinkAct() {
   const phase = phaseRef.current
 
   return (
-    <div className="relative h-full w-full overflow-hidden bg-slate-950">
+    <div className="relative h-full w-full overflow-hidden bg-white">
       <svg className="h-full w-full" viewBox={`0 0 ${ARENA.w} ${ARENA.h}`}>
-        <rect x={0} y={0} width={ARENA.w} height={ARENA.h} fill="#0b1120" stroke="#1e293b" />
+        <rect x={0} y={0} width={ARENA.w} height={ARENA.h} fill="#ffffff" stroke="#e5e5e5" />
         {/* obstacles */}
         {OBSTACLES.map((o, i) => (
-          <circle key={i} cx={o.x} cy={o.y} r={o.r} fill="#334155" stroke="#64748b" strokeWidth={2} />
+          <circle key={i} cx={o.x} cy={o.y} r={o.r} fill="#e5e5e5" stroke="#a3a3a3" strokeWidth={2} />
         ))}
         {/* sense ray */}
         <line
@@ -63,21 +63,21 @@ export function SenseThinkAct() {
         />
         {/* robot */}
         <g transform={`translate(${s.x} ${s.y}) rotate(${(s.theta * 180) / Math.PI})`}>
-          <circle r={12} fill="#1e293b" stroke="#38bdf8" strokeWidth={2} />
-          <line x1={0} y1={0} x2={14} y2={0} stroke="#38bdf8" strokeWidth={2.5} />
+          <circle r={12} fill="#f5f5f5" stroke="#3b82f6" strokeWidth={2} />
+          <line x1={0} y1={0} x2={14} y2={0} stroke="#3b82f6" strokeWidth={2.5} />
           <polygon points="14,0 9,-4 9,4" fill="#38bdf8" />
         </g>
       </svg>
 
       <MathPanel title="Sense → Think → Act">
-        <div className="text-slate-400">Sense:</div>
-        <div className="text-sky-300">dist = {dist.toFixed(0)} px</div>
-        <div className="mt-1 text-slate-400">Think:</div>
-        <div className="text-sky-300">phase = {phase}</div>
-        <div className="text-slate-400">v = {s.v.toFixed(0)}, ω = {s.omega.toFixed(2)}</div>
-        <div className="mt-1 text-slate-400">Act:</div>
-        <div className="text-sky-300">move &amp; turn</div>
-        <div className="mt-2 border-t border-slate-700 pt-2 text-slate-400">
+        <div className="text-neutral-500">Sense:</div>
+        <div className="text-neutral-800">dist = {dist.toFixed(0)} px</div>
+        <div className="mt-1 text-neutral-500">Think:</div>
+        <div className="text-neutral-800">phase = {phase}</div>
+        <div className="text-neutral-500">v = {s.v.toFixed(0)}, ω = {s.omega.toFixed(2)}</div>
+        <div className="mt-1 text-neutral-500">Act:</div>
+        <div className="text-neutral-800">move &amp; turn</div>
+        <div className="mt-2 border-t border-neutral-200 pt-2 text-neutral-500">
           if d &gt; 80 → drive<br />if d &lt; 30 → spin<br />else → slow &amp; turn
         </div>
       </MathPanel>
@@ -85,7 +85,7 @@ export function SenseThinkAct() {
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
         <button
           onClick={() => setRunning((r) => !r)}
-          className="rounded bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-500"
+          className="rounded bg-neutral-900 px-4 py-2 text-sm font-medium text-white hover:bg-neutral-800"
         >
           {running ? '⏸ Pause' : '▶ Play'}
         </button>
@@ -93,7 +93,7 @@ export function SenseThinkAct() {
           onClick={() => {
             stateRef.current = { x: 60, y: 60, theta: 0, v: 0, omega: 0 }
           }}
-          className="ml-2 rounded bg-slate-700 px-4 py-2 text-sm font-medium text-slate-200 hover:bg-slate-600"
+          className="ml-2 rounded bg-neutral-200 px-4 py-2 text-sm font-medium text-neutral-800 hover:bg-neutral-200"
         >
           ↺ Reset
         </button>
