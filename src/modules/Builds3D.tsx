@@ -1,4 +1,4 @@
-import { Suspense, useState } from 'react'
+import { Suspense, useEffect, useMemo, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, ContactShadows, Grid } from '@react-three/drei'
 import { DESIGNS, type RobotDesign } from '../lib/designs'
@@ -34,7 +34,11 @@ function Scene({ design, speed, playing, theme }: { design: RobotDesign; speed: 
         {design.id === 'pupper' && <PupperModel speed={speed} playing={playing} />}
         {design.id === 'rover' && <RoverModel speed={speed} playing={playing} />}
         {design.id === 'inmoov' && (
-          <ArmModel speed={speed} playing={playing} mats={theme.swatches} />
+          <ArmModel
+            speed={speed}
+            playing={playing}
+            mats={theme.swatches}
+          />
         )}
       </group>
       <OrbitControls
@@ -55,6 +59,39 @@ export function Builds3D() {
   const [speed, setSpeed] = useState(1)
   const [theme, setTheme] = useState<Theme>(THEMES[0])
   const [phase, setPhase] = useState<Phase>(PHASES[0])
+
+  // Manual joint control (keyboard) for the 6-DOF arm.
+  const [joints, setJoints] = useState({
+    j1: 0, j2: -20, j3: 40, j4: 0, j5: 0, j6: 0, grip: 1,
+  })
+  const autoCycle = useMemo(() => design.id !== 'inmoov', [design.id])
+
+  useEffect(() => {
+    const STEP = 5
+    const onKey = (e: KeyboardEvent) => {
+      if (design.id !== 'inmoov') return
+      setJoints((j) => {
+        switch (e.key.toLowerCase()) {
+          case 'q': return { ...j, j1: j.j1 - STEP }
+          case 'w': return { ...j, j1: j.j1 + STEP }
+          case 'a': return { ...j, j2: j.j2 - STEP }
+          case 's': return { ...j, j2: j.j2 + STEP }
+          case 'z': return { ...j, j3: j.j3 - STEP }
+          case 'x': return { ...j, j3: j.j3 + STEP }
+          case 'e': return { ...j, j4: j.j4 - STEP }
+          case 'r': return { ...j, j4: j.j4 + STEP }
+          case 'd': return { ...j, j5: j.j5 - STEP }
+          case 'f': return { ...j, j5: j.j5 + STEP }
+          case 'c': return { ...j, j6: j.j6 - STEP }
+          case 'v': return { ...j, j6: j.j6 + STEP }
+          case ' ': return { ...j, grip: j.grip > 0.5 ? 0 : 1 }
+          default: return j
+        }
+      })
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [design.id])
 
   return (
     <div className="relative h-full w-full bg-gradient-to-b from-cream to-burg-50">
@@ -122,7 +159,7 @@ export function Builds3D() {
 
       {/* Movement explainer (pick-and-place phases) — only for the arm demo */}
       {design.id === 'inmoov' && (
-        <div className="absolute left-1/2 top-3 z-10 w-96 -translate-x-1/2 rounded-lg border border-neutral-200 bg-white/90 p-3 text-xs shadow-sm backdrop-blur">
+        <div className="absolute left-1/2 top-3 z-10 w-[34rem] -translate-x-1/2 rounded-lg border border-neutral-200 bg-white/90 p-3 text-xs shadow-sm backdrop-blur">
           <div className="flex items-center justify-between">
             <div className="text-sm font-semibold text-neutral-900">
               Pick &amp; place — how the arm moves
@@ -144,6 +181,26 @@ export function Builds3D() {
             </div>
           </div>
           <p className="mt-1.5 leading-relaxed text-neutral-700">{phase.explain}</p>
+          <div className="mt-3 border-t border-neutral-200 pt-2">
+            <div className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-neutral-500">Manual joint controls</div>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[11px] text-neutral-700">
+              <div>Q / W — Base rotate (J1)</div>
+              <div>A / S — Shoulder swing (J2)</div>
+              <div>Z / X — Elbow swing (J3)</div>
+              <div>E / R — Wrist rotate (J4)</div>
+              <div>D / F — Wrist swing (J5)</div>
+              <div>C / V — Tool rotate (J6)</div>
+              <div className="col-span-2">Space — Toggle gripper</div>
+            </div>
+          </div>
+          <div className="mt-3 border-t border-neutral-200 pt-2">
+            <div className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-neutral-500">Cycle timeline</div>
+            <div className="flex items-center gap-2">
+              {PHASES.map((p) => (
+                <div key={p.id} className={`h-2 flex-1 rounded ${phase.id === p.id ? 'bg-neutral-900' : 'bg-neutral-200'}`} />
+              ))}
+            </div>
+          </div>
         </div>
       )}
 
