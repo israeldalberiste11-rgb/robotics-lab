@@ -7,7 +7,7 @@ import { Html } from '@react-three/drei'
 import type * as THREE from 'three'
 import { PHASES } from '../../lib/pick'
 
-const PHASE_SECONDS = 1.6
+export const PHASE_SECONDS = 1.6
 const BLOCK = 0.03
 const UPPER = 0.26
 const FORE = 0.22
@@ -41,12 +41,10 @@ function Callout({ text, position }: { text: string; position: [number, number, 
 }
 
 export function ArmModel({
-  speed = 1,
-  playing = true,
+  time,
   mats,
 }: {
-  speed?: number
-  playing?: boolean
+  time: number
   mats: ArmMats
 }) {
   const shoulder = useRef<THREE.Group>(null!)
@@ -59,7 +57,6 @@ export function ArmModel({
   const stackTop = useRef<THREE.Group>(null!)
 
   const stackRef = useRef({ count: 3 })
-  const clockRef = useRef(0)
   const placedRef = useRef(0)
 
   const SRC = useMemo(() => {
@@ -76,12 +73,8 @@ export function ArmModel({
     return [x, y - HAND - BLOCK / 2 - 0.005] as const
   }, [])
 
-  useFrame((state, delta) => {
-    if (!playing) return
-    const dt = Math.min(delta, 0.05) * speed
-    clockRef.current += dt
-
-    const t = clockRef.current / PHASE_SECONDS
+  useFrame(() => {
+    const t = time / PHASE_SECONDS
     const idx = Math.floor(t) % PHASES.length
     const next = (idx + 1) % PHASES.length
     const k = ease(t - Math.floor(t))
@@ -115,7 +108,7 @@ export function ArmModel({
   })
 
   useFrame(() => {
-    const idx = Math.floor(clockRef.current / PHASE_SECONDS) % PHASES.length
+    const idx = Math.floor(time / PHASE_SECONDS) % PHASES.length
     const prev = (idx + PHASES.length - 1) % PHASES.length
     if (PHASES[idx].id === 'reach' && PHASES[prev].id === 'open') {
       stackRef.current.count = 3

@@ -3,3 +3,5 @@ dist
 *.tsbuildinfo
 verify-*.png
 .DS_Store
+
+.vercel

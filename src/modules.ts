@@ -26,7 +26,7 @@ export const MODULES: ModuleDef[] = [
   {
     id: 'inverse-kinematics',
     title: 'Inverse Kinematics',
-    blurb: 'Click a target point → the arm solves for angles.',
+    blurb: 'Set a 3D target and solve for the joint angles.',
     principle: 'Given a goal point, what joint angles reach it?',
     Component: InverseKinematics,
   },

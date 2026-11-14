@@ -12,11 +12,13 @@ export function stepDifferential(
 ): Pose {
   const v = (vLeft + vRight) / 2
   const omega = (vRight - vLeft) / L
-  // Integrate pose. Use the midpoint heading for a smoother arc.
-  const thetaMid = pose.theta + (omega * dt) / 2
+  // Exact integration for constant wheel velocities over the step.
+  const halfTurn = omega * dt / 2
+  const thetaMid = pose.theta + halfTurn
+  const distance = v * dt * (Math.abs(halfTurn) < 1e-9 ? 1 : Math.sin(halfTurn) / halfTurn)
   return {
-    x: pose.x + v * Math.cos(thetaMid) * dt,
-    y: pose.y + v * Math.sin(thetaMid) * dt,
+    x: pose.x + distance * Math.cos(thetaMid),
+    y: pose.y + distance * Math.sin(thetaMid),
     theta: pose.theta + omega * dt,
   }
 }
