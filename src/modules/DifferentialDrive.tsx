@@ -254,7 +254,7 @@ export function DifferentialDrive() {
       <Range label="Left wheel" min={-.65} max={.65} value={command[0]} unit="m/s" change={(value) => setCommand([value,command[1]])} />
       <Range label="Right wheel" min={-.65} max={.65} value={command[1]} unit="m/s" change={(value) => setCommand([command[0],value])} />
     </div><div className="sim-buttons drive-presets">{PRESETS.map(([name,l,r]) => <button key={name}
-      aria-pressed={command[0] === l && command[1] === r} onClick={() => { keys.current.clear(); setKeyboardDrive(false); stopProgram(); setAutomatic(false); setCommand([l,r]) }}>{name}</button>)}
+      aria-pressed={command[0] === l && command[1] === r} onClick={() => { keys.current.clear(); setKeyboardDrive(false); stopProgram(); setAutomatic(false); setDriveStatus(''); setCommand([l,r]); setPlaying(true) }}>{name}</button>)}
       <button aria-pressed={automatic} onClick={()=>{reset();setWheel(null);setAutomatic(true);route.current=plan(origin,target,obstacles);setPlaying(true)}}>Path following</button>
       <button aria-pressed={inspector} onClick={()=>inspector?closeInspector():setInspector(true)}>Engineering Inspector</button>
     </div></>}>
